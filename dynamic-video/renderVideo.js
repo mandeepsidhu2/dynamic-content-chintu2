@@ -86,7 +86,11 @@ async function renderVideo({ outputDir, output },template) {
     for (let frame = 0; frame < frames; ++frame) {
       animate(frame);
       layer.draw();
-      await saveFrame({ stage, outputDir, frame });
+      try {
+        await saveFrame({stage, outputDir, frame});
+      }catch (e){
+        console.log(e)
+      }
       if ((frame + 1) % videoFps === 0) {
         console.log(`rendered ${(frame + 1) / videoFps} second(s)`);
       }
