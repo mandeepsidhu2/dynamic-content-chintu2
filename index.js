@@ -1,4 +1,5 @@
 const express = require('express')
+require('dotenv').config()
 require("konva-node");
 const app = express();
 const port = 8000;
@@ -77,8 +78,8 @@ app.post('/post', async (req, res, next) => {
             return res.status(400).send('No files were uploaded.');
         }
         // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
-        await awsService.uploadFile(req.files.file);
-        res.status(Status.OK).json(await Success(result))
+        const link = await awsService.uploadFile(req.files.file);
+        res.status(200).json(link)
     } catch (e) {
         next(e)
     }

@@ -10,7 +10,7 @@ const {
   cleanUp,
   combineAnimations, loadKonvaImage,
 } = require("./video.utils");
-
+const awsService = require('../src/service/aws.js');
 function renderBackground(layer,bg) {
   layer.add(
     new Konva.Rect({
@@ -101,6 +101,7 @@ async function renderVideo({ outputDir, output },template) {
 
   console.log("creating video");
   await createVideo({ fps: videoFps, outputDir, output });
+  await awsService.uploadVideo()
   const time = Date.now() - start;
   console.log(`done in ${time} ms. ${(frames * 1000) / (time || 0.01)} FPS`);
 }
