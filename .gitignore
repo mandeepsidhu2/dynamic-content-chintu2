@@ -9,3 +9,4 @@ outImage/*
 
 !video/.gitkeep
 !outImage/.gitkeep
+!out/.gitkeep
