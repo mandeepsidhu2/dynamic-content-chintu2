@@ -6,6 +6,7 @@ const awsService = require('../src/service/aws.js');
 const {
   cleanUpImage
 } = require("./video.utils");
+const textOnGif = require("text-on-gif");
 
 async function generate(template) {
   const outputDir = path.join(__dirname, "../out");
@@ -49,8 +50,26 @@ async function generateImage(firstname) {
 
 }
 
+async function generateGIF(gifUrl,text){
+  const writePath = path.join(__dirname, `../outGif/output_${(new Date()).getTime()}.gif`);
+  //write gif as file
+  await textOnGif({
+    file_path:gifUrl, //path to local file or url
+    textMessage:text,
+    write_as_file:true,
+    alignmentY:"top",
+    alignmentX:"middle",
+    getAsBuffer:false,
+    write_path:writePath
+  });
+  const url = await awsService.uploadFile(/[^/]*$/.exec(writePath)[0])
+  await cleanUpImage('outImage',/[^/]*$/.exec(writePath)[0])
+  return url
+}
+
 
 module.exports = {
   generate,
+  generateGIF,
   generateImage
 };

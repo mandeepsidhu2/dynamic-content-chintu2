@@ -18,6 +18,7 @@
     "fs": "0.0.1-security",
     "https": "^1.0.0",
     "konva": "^7.2.5",
-    "konva-node": "^0.11.2"
+    "konva-node": "^0.11.2",
+    "text-on-gif": "^1.0.29"
   }
 }
