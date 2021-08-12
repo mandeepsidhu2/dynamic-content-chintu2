@@ -3,6 +3,9 @@ node_modules
 package-lock.json
 .env
 out/*
-video/
+video/*
 .DS_Store
-outImage
+outImage/*
+
+!video/.gitkeep
+!outImage/.gitkeep
