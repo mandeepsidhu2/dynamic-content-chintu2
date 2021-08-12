@@ -1,8 +1,8 @@
 const fs = require('fs');
 const AWS = require('aws-sdk');
 const util = require('util')
-const ID = 'AKIAUPH5WFXZUXB27I7W';
-const SECRET = '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';
+const ID = '';
+const SECRET = '';
 const BUCKET_NAME = 'hackathon-chintu2-dynamic-content';
 
 const s3 = new AWS.S3({
