@@ -48,6 +48,20 @@ async function saveFrame({ stage, outputDir, frame }) {
   await fs.promises.writeFile(fileName, base64Data, "base64");
 }
 
+async function saveImage(stage,outputDir,frame) {
+    const data = stage.toDataURL();
+
+    // remove the data header
+    const base64Data = data.substring("data:image/png;base64,".length);
+
+    const fileName = path.join(
+        outputDir,
+        `image-${String(frame + 1).padStart(frameLength, "0")}.png`
+    );
+
+    await fs.promises.writeFile(fileName, base64Data, "base64");
+}
+
 async function createVideo({ fps, outputDir, output }) {
   await execa(
     "ffmpeg",
@@ -78,6 +92,7 @@ async  function cleanUp(dir){
 
 module.exports = {
   saveFrame,
+    saveImage,
     cleanUp,
   createVideo,
   loadKonvaImage,

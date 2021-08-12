@@ -1,13 +1,14 @@
 const express = require('express')
+require("konva-node");
 const app = express();
 const port = 8000;
 const fileUpload = require('express-fileupload');
 app.use(fileUpload());
-const fs = require('fs');
-// init Konva
-require("konva-node");
 const { videoWidth } = require("./dynamic-video/consts");
-const {generate} = require("./dynamic-video/index");
+const {generate,generateImage} = require("./dynamic-video/index");
+const awsService = require('./src/service/aws.js');
+const { registerFont } = require('canvas')
+registerFont('./fonts/Sign-Painter-Regular.ttf', { family: 'signpainter' })
 const dummyTemplate = {
     bg:"#FCFCFC",
     texts:[
@@ -42,13 +43,15 @@ const dummyTemplate = {
     ]
 }
 
+
 app.get('/', (req, res) => {
     res.send('Dynamic content for Chintu 2.0!')
 });
 
 app.get('/get-dynamic-video', async (req, res) => {
     try {
-        dummyTemplate.texts[2].text = req.query.name;
+        let firstname = decodeURI(req.query.name) + "!";
+        dummyTemplate.texts[2].text = firstname;
         const result = await generate(dummyTemplate);
         res.send('Dynamic content for Chintu 2.0!')
     }catch (e) {
@@ -56,11 +59,17 @@ app.get('/get-dynamic-video', async (req, res) => {
     }
 });
 
-app.listen(port, () => {
-    console.log(`App listening on port ${port}!`)
-});
+app.get('/get-dynamic-image', async (req, res) => {
 
-const awsService = require('./src/service/aws.js');
+    // Grab first name from query
+    let firstname = decodeURI(req.query.name) + "!";
+    try {
+        const result = await generateImage(firstname);
+        res.send('Dynamic Image content for Chintu 2.0!')
+    }catch (e) {
+        res.send('Error! Something Went wrong....')
+    }
+})
 
 app.post('/post', async (req, res, next) => {
     try {
@@ -74,3 +83,10 @@ app.post('/post', async (req, res, next) => {
         next(e)
     }
 })
+
+
+app.listen(port, () => {
+    console.log(`App listening on port ${port}!`)
+});
+
+

@@ -8,7 +8,7 @@ const {
   loadImageAsset,
   makeAnimation,
   cleanUp,
-  combineAnimations,
+  combineAnimations, loadKonvaImage,
 } = require("./video.utils");
 
 function renderBackground(layer,bg) {
@@ -101,11 +101,11 @@ async function renderVideo({ outputDir, output },template) {
 
   console.log("creating video");
   await createVideo({ fps: videoFps, outputDir, output });
-  // await upload()
-  await cleanUp(outputDir)
   const time = Date.now() - start;
   console.log(`done in ${time} ms. ${(frames * 1000) / (time || 0.01)} FPS`);
 }
+
+
 
 module.exports = {
   renderVideo,
