@@ -2,6 +2,7 @@ const path = require("path");
 const { renderVideo } = require("./renderVideo");
 const {createCanvas, loadImage} = require("canvas");
 const {saveImage} = require("./video.utils");
+const awsService = require('../src/service/aws.js');
 
 async function generate(template) {
   const outputDir = path.join(__dirname, "../out");
@@ -37,9 +38,8 @@ async function generateImage(firstname) {
     context.fillText(firstname, 300, 150)
 
     // Convert the Canvas to a buffer
-    const buffer = canvas.toBuffer('image/png')
-    await saveImage(canvas,outputDir,0)
-
+    const fileName = await saveImage(canvas,outputDir,0)
+    return await awsService.uploadFile(/[^/]*$/.exec(fileName)[0])
     // Set and send the response as a PNG
     // res.set({ 'Content-Type': 'image/png' });
     // res.send(buffer)

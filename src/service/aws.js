@@ -11,19 +11,19 @@ const s3 = new AWS.S3({
 });
 
 const uploadFile = async (fileName) => {
-    const writeFileAsync = util.promisify(fs.writeFile)
-    await writeFileAsync(`./${fileName.name}`, fileName.data)
-    let fileN = fileName.name
-    fileN = fileN.substr(0, fileN.lastIndexOf(".")).split(" ").join("").split(".").join("")
+    // const writeFileAsync = util.promisify(fs.writeFile)
+    // await writeFileAsync(`./${fileName.name}`, fileName.data)
+    // let fileN = fileName.name
+    // fileN = fileN.substr(0, fileN.lastIndexOf(".")).split(" ").join("").split(".").join("")
     const contentType =  'image/png'
-    const filePath = fileName.name
-    await uploadToS3(contentType, fileN, filePath)
-    return (BUCKET_LINK + fileN)
+    // const filePath = fileName.name
+    const filePath = './outImage/'+fileName
+    await uploadToS3(contentType, fileName, filePath)
+    return (BUCKET_LINK + fileName)
 }
 
-const uploadVideo = async () => {
+const uploadVideo = async (fileN) => {
     const contentType =  'video/mp4'
-    const fileN = 'output'
     const filePath = './video/output.mp4'
     await uploadToS3(contentType, fileN, filePath)
     return (BUCKET_LINK + fileN)

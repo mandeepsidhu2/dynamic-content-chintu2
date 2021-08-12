@@ -60,6 +60,7 @@ async function saveImage(stage,outputDir,frame) {
     );
 
     await fs.promises.writeFile(fileName, base64Data, "base64");
+    return fileName
 }
 
 async function createVideo({ fps, outputDir, output }) {

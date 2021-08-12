@@ -54,7 +54,7 @@ app.get('/get-dynamic-video', async (req, res) => {
         let firstname = decodeURI(req.query.name) + "!";
         dummyTemplate.texts[2].text = firstname;
         const result = await generate(dummyTemplate);
-        res.send('Dynamic content for Chintu 2.0!')
+        res.send(result)
     }catch (e) {
         res.send('Error! Something Went wrong....')
     }
@@ -66,7 +66,7 @@ app.get('/get-dynamic-image', async (req, res) => {
     let firstname = decodeURI(req.query.name) + "!";
     try {
         const result = await generateImage(firstname);
-        res.send('Dynamic Image content for Chintu 2.0!')
+        res.send(result)
     }catch (e) {
         res.send('Error! Something Went wrong....')
     }
