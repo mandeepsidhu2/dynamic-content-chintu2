@@ -10,13 +10,13 @@
   "license": "ISC",
   "dependencies": {
     "aws-sdk": "^2.966.0",
+    "axios": "^0.21.1",
     "canvas": "^2.8.0",
     "dotenv": "^10.0.0",
     "execa": "^5.0.0",
     "express": "^4.17.1",
     "express-fileupload": "^1.2.1",
     "fs": "0.0.1-security",
-    "https": "^1.0.0",
     "konva": "^7.2.5",
     "konva-node": "^0.11.2",
     "text-on-gif": "^1.0.29"
