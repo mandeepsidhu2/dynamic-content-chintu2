@@ -10,14 +10,24 @@ const s3 = new AWS.S3({
     secretAccessKey: SECRET
 });
 
-const uploadFile = async (fileName) => {
+const uploadFile = async (fileName,contentType="image/png") => {
     // const writeFileAsync = util.promisify(fs.writeFile)
     // await writeFileAsync(`./${fileName.name}`, fileName.data)
     // let fileN = fileName.name
     // fileN = fileN.substr(0, fileN.lastIndexOf(".")).split(" ").join("").split(".").join("")
-    const contentType =  'image/png'
     // const filePath = fileName.name
     const filePath = './outImage/'+fileName
+    await uploadToS3(contentType, fileName, filePath)
+    return (BUCKET_LINK + fileName)
+}
+
+const uploadGIF = async (fileName,contentType="image/gif") => {
+    // const writeFileAsync = util.promisify(fs.writeFile)
+    // await writeFileAsync(`./${fileName.name}`, fileName.data)
+    // let fileN = fileName.name
+    // fileN = fileN.substr(0, fileN.lastIndexOf(".")).split(" ").join("").split(".").join("")
+    // const filePath = fileName.name
+    const filePath = './outGif/'+fileName
     await uploadToS3(contentType, fileName, filePath)
     return (BUCKET_LINK + fileName)
 }
@@ -54,4 +64,5 @@ const uploadToS3= async (contentType, fileN, filePath)  =>{
 
 exports.uploadFile = uploadFile
 exports.uploadVideo = uploadVideo
+exports.uploadGIF = uploadGIF
 
