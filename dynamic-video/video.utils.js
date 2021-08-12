@@ -56,7 +56,7 @@ async function saveImage(stage,outputDir,frame) {
 
     const fileName = path.join(
         outputDir,
-        `image-${String(frame + 1).padStart(frameLength, "0")}.png`
+        `image-${(new Date()).getUTCMilliseconds()}.png`
     );
 
     await fs.promises.writeFile(fileName, base64Data, "base64");

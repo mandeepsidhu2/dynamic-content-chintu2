@@ -8,8 +8,7 @@ async function generate(template) {
   const outputDir = path.join(__dirname, "../out");
   const output = path.join(__dirname, `../video/output${(new Date()).getUTCMilliseconds()}.mp4`);
   console.log(output)
-  await renderVideo({ outputDir, output },template);
-  return output;
+  return await renderVideo({ outputDir, output },template);
 }
 
 async function generateImage(firstname) {
@@ -28,22 +27,21 @@ async function generateImage(firstname) {
   context.font = "80px 'signpainter' bold";
 
   // Load and draw the background image first
-  loadImage('./assets/endgame.jpeg').then(async image => {
+  const image = await loadImage('./assets/endgame.jpeg')
+  // Draw the background
+  context.drawImage(image, 0, 0, 600, 474)
 
-    // Draw the background
-    context.drawImage(image, 0, 0, 600, 474)
+  // Draw the text
+  context.fillText('Here we go', 300, 30)
+  context.fillText(firstname, 300, 150)
 
-    // Draw the text
-    context.fillText('Here we go', 300, 30)
-    context.fillText(firstname, 300, 150)
+  // Convert the Canvas to a buffer
+  const fileName = await saveImage(canvas,outputDir,0)
+  return await awsService.uploadFile(/[^/]*$/.exec(fileName)[0])
+  // Set and send the response as a PNG
+  // res.set({ 'Content-Type': 'image/png' });
+  // res.send(buffer)
 
-    // Convert the Canvas to a buffer
-    const fileName = await saveImage(canvas,outputDir,0)
-    return await awsService.uploadFile(/[^/]*$/.exec(fileName)[0])
-    // Set and send the response as a PNG
-    // res.set({ 'Content-Type': 'image/png' });
-    // res.send(buffer)
-  })
 }
 
 
