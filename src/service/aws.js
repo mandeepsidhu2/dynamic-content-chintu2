@@ -19,15 +19,17 @@ const s3 = new AWS.S3({
             Bucket: BUCKET_NAME,
             Key: fileName.name,
             Body: fileContent,
-            ACL:'public-read'
+            ACL:'public-read',
+            ContentType: 'image/png'
         };
 
-        s3.upload(params, function (err, data) {
+       const x = await s3.putObject(params, function (err, data) {
             if (err) {
                 throw err;
             }
             console.log(`File uploaded successfully. ${data.Location}`);
         });
+       return x
     }
 
 exports.uploadFile = uploadFile;
