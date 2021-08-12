@@ -32,6 +32,25 @@ const uploadGIF = async (fileName,contentType="image/gif") => {
     return (BUCKET_LINK + fileName)
 }
 
+const uploadGIFBuffer = async (fileName,buffer) => {
+    const params = {
+        Bucket: BUCKET_NAME,
+        Key: fileName,
+        Body: buffer,
+        ACL:'public-read',
+        ContentEncoding: 'base64',
+        ContentType: "image/gif"
+    };
+
+    s3.putObject(params, function (err, data) {
+        if (err) {
+            throw err;
+        }
+        console.log(`File uploaded successfully. ${data.Location}`);
+    });
+    return (BUCKET_LINK + fileName)
+}
+
 const uploadVideo = async (fileN) => {
     const contentType =  'video/mp4'
     const filePath = './video/'+fileN
@@ -65,4 +84,5 @@ const uploadToS3= async (contentType, fileN, filePath)  =>{
 exports.uploadFile = uploadFile
 exports.uploadVideo = uploadVideo
 exports.uploadGIF = uploadGIF
+exports.uploadGIFBuffer = uploadGIFBuffer
 

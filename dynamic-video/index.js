@@ -53,20 +53,19 @@ async function generateImage(firstname) {
 async function generateGIF(gifUrl,text){
   const writePath = path.join(__dirname, `../outGif/output_${(new Date()).getTime()}.gif`);
   //write gif as file
-  await textOnGif({
+  // await textGif(gifUrl,text,writePath)
+  var gifBuffer = await textOnGif({
     file_path:gifUrl, //path to local file or url
     textMessage:text,
-    write_as_file:true,
+    write_as_file:false,
     alignmentY:"top",
     alignmentX:"middle",
-    getAsBuffer:false,
-    write_path:writePath
+    getAsBuffer:true
   });
-  const url = await awsService.uploadGIF(/[^/]*$/.exec(writePath)[0])
+  const result = await awsService.uploadGIFBuffer(/[^/]*$/.exec(writePath)[0],gifBuffer)
   await cleanUpImage('outGif',/[^/]*$/.exec(writePath)[0])
-  return 'url'
+  return result
 }
-
 
 module.exports = {
   generate,
