@@ -10,6 +10,7 @@ const {generate,generateImage,generateGIF} = require("./dynamic-video/index");
 const awsService = require('./src/service/aws.js');
 const { registerFont } = require('canvas')
 const {text} = require("express");
+const {getTenorGifUrl} = require("./dynamic-video/tenor");
 registerFont('./fonts/Sign-Painter-Regular.ttf', { family: 'signpainter' })
 const dummyTemplate = {
     bg:"#FCFCFC",
@@ -77,9 +78,10 @@ app.get('/get-dynamic-gif', async (req, res) => {
 
     // Grab first name from query
     let text = decodeURI(req.query.text);
-    // let emotion = decodeURI(req.query.emotion);
+    let emotion = decodeURI(req.query.emotion);
+    let url = await  getTenorGifUrl(emotion)
     try {
-        const result = await generateGIF('https://media.tenor.com/images/a98886b4ee4d2e1afc156f5cfd02bed5/tenor.gif',text);
+        const result = await generateGIF(url,text);
         res.send({result});
     }catch (e) {
         res.send('Error! Something Went wrong....')

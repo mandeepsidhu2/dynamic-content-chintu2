@@ -64,7 +64,7 @@ async function generateGIF(gifUrl,text){
   });
   const url = await awsService.uploadGIF(/[^/]*$/.exec(writePath)[0])
   await cleanUpImage('outGif',/[^/]*$/.exec(writePath)[0])
-  return url
+  return 'url'
 }
 
 
