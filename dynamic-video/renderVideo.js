@@ -7,7 +7,7 @@ const {
   createVideo,
   loadImageAsset,
   makeAnimation,
-  cleanUp,
+  cleanUpVideo,
   combineAnimations, loadKonvaImage,
 } = require("./video.utils");
 const awsService = require('../src/service/aws.js');
@@ -102,6 +102,7 @@ async function renderVideo({ outputDir, output },template) {
   console.log("creating video");
   await createVideo({ fps: videoFps, outputDir, output });
   const link = await awsService.uploadVideo(/[^/]*$/.exec(output)[0])
+  await cleanUpVideo('video', /[^/]*$/.exec(output)[0])
   const time = Date.now() - start;
   console.log(`done in ${time} ms. ${(frames * 1000) / (time || 0.01)} FPS`);
   return link

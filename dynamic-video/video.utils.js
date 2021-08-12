@@ -82,11 +82,20 @@ async function createVideo({ fps, outputDir, output }) {
   );
 }
 
-async  function cleanUp(dir){
+async function cleanUpVideo(dir,videoName){
     await execa(
         "rm",[
             "-rf",
-            `${dir}/*.png`
+            `${dir}/${videoName}`
+        ],
+    );
+}
+
+async function cleanUpImage(dir,imageName){
+    await execa(
+        "rm",[
+            "-rf",
+            `${dir}/${imageName}`
         ],
     );
 }
@@ -94,7 +103,8 @@ async  function cleanUp(dir){
 module.exports = {
   saveFrame,
     saveImage,
-    cleanUp,
+    cleanUpVideo,
+    cleanUpImage,
   createVideo,
   loadKonvaImage,
   loadImageAsset,

@@ -24,7 +24,7 @@ const uploadFile = async (fileName) => {
 
 const uploadVideo = async (fileN) => {
     const contentType =  'video/mp4'
-    const filePath = './video/output.mp4'
+    const filePath = './video/'+fileN
     await uploadToS3(contentType, fileN, filePath)
     return (BUCKET_LINK + fileN)
 }
